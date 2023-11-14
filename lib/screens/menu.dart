@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kelontong/widgets/left_drawer.dart';
+import 'package:kelontong/widgets/shop_card.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -13,12 +15,14 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor : Color.fromRGBO(189, 147, 89, 1.0),
+        backgroundColor :  const Color.fromRGBO(189, 147, 89, 1.0),
         title: const Text(
           'Kelontong',
           style: TextStyle(color: Colors.white),
         ),
       ),
+      // Menampilkan drawer
+      drawer: const LeftDrawer(),
       body: SingleChildScrollView(
         // Widget wrapper yang dapat discroll
         child: Padding(
@@ -56,62 +60,9 @@ class MyHomePage extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Color.fromRGBO(237, 222, 173, 1.0),
+      // Mengubah warna background untuk halaman utama 
+      backgroundColor:  const Color.fromRGBO(237, 222, 173, 1.0),
     );
   }
 }
 
-class Tombol {
-  final String name;
-  final IconData icon;
-  final Color color;
-
-  Tombol(this.name, this.icon, this.color);
-}
-
-
-class ShopCard extends StatelessWidget {
-  final Tombol item;
-
-  // Constructor
-  const ShopCard(this.item, {super.key}); 
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: item.color,
-      child: InkWell(
-        // Area responsive terhadap sentuhan
-        onTap: () {
-          // Memunculkan SnackBar ketika diklik
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Text("Kamu telah menekan tombol ${item.name}!")));
-        },
-        child: Container(
-          // Container untuk menyimpan Icon dan Text
-          padding: const EdgeInsets.all(8),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  item.icon,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                const Padding(padding: EdgeInsets.all(3)),
-                Text(
-                  item.name,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

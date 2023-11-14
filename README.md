@@ -44,6 +44,228 @@ Jawab:
 * Membuat warna tiap tombol berbeda dengan menambahkan atribut color pada class Tombol dan menjadikannya sebagai argumen untuk constructor Tombol.
 
 
+# TUGAS 8
+
+### 1. Jelaskan perbedaan antara Navigator.push() dan Navigator.pushReplacement(), disertai dengan contoh mengenai penggunaan kedua metode tersebut yang tepat!
+Jawab:
+- `Navigator.push()`: digunakan untuk menavigasi menuju halaman baru dan menambahkannya ke tumpukan halaman (stack). Pada metode ini, halaman sebelumnya tetap ada di tumpukan dan dapat kembali (back) ke halaman sebelumnya dengan tombol kembali/`Navigator.pop()`. Contoh penggunaan yaitu pada tugas 8 saya:
+```
+// Menambah navigasi pada tombol Tambah Item menuju halaman form (Pada file shop_card.dart)
+if (item.name == "Tambah Item") {
+     Navigator.push(
+          context,
+          MaterialPageRoute(
+               builder: (context) => const ShopFormPage(),
+          )
+     );
+}
+```
+- `Navigator.pushReplacement()`: digunakan untuk menavigasi ke jalaman baru juga, namun pada metode ini halaman yang dituju akan menggantikan halaman saat ini. Pada metode ini, tidak dapat kembali ke halaman sebelumnya dengan tombol kembali/`Navigator.pop()`. Contoh penggunaan yaitu pada tugas 8 saya:
+```
+// Redirection ke MyHomePage (Pada file left_drawer.dart)
+onTap: () {
+     Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+               builder: (context) => MyHomePage(),
+          )
+     );
+},
+```
+
+### 2. Jelaskan masing-masing layout widget pada Flutter dan konteks penggunaannya masing-masing!
+Jawab:
+- Column: menyusun daftar child widget secara vertikal. Menata letak widget jika ingin ditempatkan pada 1 column yang sama.
+- Container: menggabungkan/menampung beberapa widget. Memungkinkan untuk melakukan kustomisasi seperti background color.
+- ListView: membuat daftar widget menjadi scrollable.
+- Center: menyesuaikan posisi child di tengah.
+- Row: menyusun daftar child widget secara horizontal. Menata letak widget jika ingin ditempatkan pada 1 row yang sama.
+- Stack: menyusun children secara bertumpuk. Digunakan jika ingin menumpuk (stack) beberapa child.
+- Expanded: berfungsi untuk mengontrol agar widget mengisi ruang sebanyak mungkin. Merupakan widget yang memperluas child dari Row, Column, atau Flex.
+- Padding: memberikan padding pada childnya.
+- GridView: menempatkan children dalam grid/daftar grid yang diatur secara vertikal dan horizontal. Dapat digunakan untuk mengatur letak/menyusun card. 
+- Flexible: mengontrol bagaimana child dari widget flex seperti Row, Column, dan Flex akan mengisi ruang yang tersedia.
+- Wrap: menampilkan childnya dalam beberapa baris vertikal atau horizontal. Jika ruangnya tidak cukup maka widget akan berpindah ke baris atau kolom berikutnya.
+- Align: widget yang menyesuaikan posisi child di dalam dirinya.
+
+### 3. Sebutkan apa saja elemen input pada form yang kamu pakai pada tugas kali ini dan jelaskan mengapa kamu menggunakan elemen input tersebut!
+Jawab:
+Pada tugas kali ini, saya membuat 4 elemen input dalam Form. 
+- `Nama Item` menggunakan widget TextFormField untuk menerima input 'Nama Item' dari pengguna. Saya juga menggunakan validator untuk memastikan bahwa pengguna memasukkan nama item dan field ini tidak boleh kosong.
+- `Harga` menggunakan widget TextFormField untuk menerima input 'Harga' dari pengguna. Saya juga menggunakan validator untuk memastikan bahwa pengguna memasukkan harga berupa angka dan field ini tidak boleh kosong.
+- `Amount` menggunakan widget TextFormField untuk menerima input 'Amount' dari pengguna. Saya juga menggunakan validator untuk memastikan bahwa pengguna memasukkan amount berupa angka dan field ini tidak boleh kosong.
+- `Deskripsi` menggunakan widget TextFormField untuk menerima input 'Deskripsi' dari pengguna. Saya juga menggunakan validator untuk memastikan bahwa pengguna memasukkan deksripsi dan field ini tidak boleh kosong.
+
+* Selain itu, saya membuat tombol `Save` menggunakan ElevatedButton sebagai elemen input untuk mengirimkan form. Ketika tombol `Save` ditekan maka akan melakukan validasi form, jika valid maka akan menampilkan pop up berisi detail item. Jika tidak valid, maka pop up tidak ditampilkan. 
+
+### 4. Bagaimana penerapan clean architecture pada aplikasi Flutter?
+Jawab:
+Clean architecture merupakan prinsip desain perangkat lunak yang memisahkan kode menjadi beberapa lapisan dengan tujuan dan tanggung jawab yang berbeda. Tujuannya yaitu untuk menciptakan basis kode yang modular, dapat diskalakan, dan dapat diuji (separation of concern). Lapisan pada clean architecture yaitu domain layer, application layer, infrastructure layer, presentation layer, feature layer, dan resources dan shared library layers. Pemisahan tujuan dan tanggung jawab dapat memudahkan proses pengembangan aplikasi.
+
+### 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial)
+Jawab:
+- Membuat minimal satu halaman baru pada aplikasi, yaitu halaman formulir tambah item baru 
+   * Membuat file `shoplist_form.dart` yang berisikan kode untuk membuat form yang menerima input nama item, harga, amount, dan deskripsi.
+     - Memakai minimal tiga elemen input, yaitu name, amount, description. Tambahkan elemen input sesuai dengan model pada aplikasi tugas Django yang telah kamu buat. 
+        * Saya menggunakan 4 atribut dan tiap atribut dibungkus pada widget Padding() yang berbeda dan tiap elemen input menggunakan TextFormField(). Saya juga mengecek validasi dari tiap input yang dimasukkan pengguna ke tiap field.
+        ```
+          // Variabel untuk menyimpan input dari tiap field
+          String _name = "";
+          int _price = 0;
+          int _amount = 0;
+          String _description = "";
+        ```
+     - Memiliki sebuah tombol Save.
+        * Membuat tombol menggunakan ElevatedButton() yang berada di dalam widget Align()
+        ```
+          Align(
+               alignment: Alignment.bottomCenter,
+               child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton(
+                         ......
+                    )
+               )
+          )
+        ```
+        * Menggunakan onPressed() untuk melakukan aksi ketika tombol diklik. Ketika tombol di klik akan dilakukan pengecekan apakah form sudah valid. Jika valid, maka akan muncul pop up yang menampilkan detail item yang diinput
+     - Setiap elemen input di formulir juga harus divalidasi dengan ketentuan
+          * Menggunakan validator di tiap TextFormField()
+          ```
+          validator: (String? value) {
+               ....
+          }
+          ```
+          Jika input tidak sesuai ketentuan, maka akan meminta input kembali (field menjadi kosong dan ada peringatan pada field bahwa field harus diisi sesuai ketentuan)
+          * Memastikan input tidak kosong
+          ```
+          validator: (String? value) {
+               if (value == null || value.isEmpty) {
+                    ....
+               }
+               ....
+          }
+          ```
+          * Memastikan input berisikan data dengan tipe data atribut model.
+          => Jika tipe data int
+          ```
+          validator: (String? value) {
+               ....
+               if (int.tryParse(value) == null) {
+                    ....
+               }
+               return null;
+          },
+          ```
+          => Jika tipe data String hanya perlu memastikan field tidak kosong
+
+- Mengarahkan pengguna ke halaman form tambah item baru ketika menekan tombol Tambah Item pada halaman utama.
+   * Saya menggunakan `Navigator.push()` untuk redirect ke halaman form. Saya menambahkan kode untuk navigasi tersebut pada `shop_card.dart`
+     ```
+     // Menambah navigasi pada tombol Tambah Item
+     if (item.name == "Tambah Item") {
+          Navigator.push(
+               context,
+               MaterialPageRoute(
+                    builder: (context) => const ShopFormPage(),
+               )
+          );
+     }
+     ```
+     Saya juga meng-impor `shop_card.dart` pada `menu.dart`
+
+- Memunculkan data sesuai isi dari formulir yang diisi dalam sebuah pop-up setelah menekan tombol Save pada halaman formulir tambah item baru.
+   * Menggunakan onPressed() untuk melakukan aksi ketika tombol di klik, lalu form akan divalidasi. Jika sudah sesuai, maka akan muncul pop up. Saya menggunakan `showDialog()` dan `AlertDialog()`
+     ```
+               onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            backgroundColor: const Color.fromRGBO(237, 222, 173, 1.0),
+                            title: const Text('Item berhasil disimpan'),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Nama: $_name'),
+                                  Text('Harga: $_price'),
+                                  Text('Amount: $_amount'),
+                                  Text('Deskripsi: $_description'),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                child: const Text('OK'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      _formKey.currentState!.reset();
+                    }
+                  },
+     ```
+
+- Membuat sebuah drawer pada aplikasi dengan ketentuan sebagai berikut:
+   * Membuat file `left_drawer.dart`
+     - Drawer minimal memiliki dua buah opsi, yaitu Halaman Utama dan Tambah Item.
+        * Menambahkan widget yaitu `ListTile()` untuk dua opsi yaitu Halaman Utama dan Tambah Item
+        ```
+          ListTile(
+               leading: const Icon(Icons.home_outlined),
+               title: const Text('Halaman Utama'),
+               ....
+          )
+
+          ListTile(
+               leading: const Icon(Icons.home_outlined),
+               title: const Text('Tambah Item'),
+               ....
+          )
+        ```
+     - Ketika memiih opsi Halaman Utama, maka aplikasi akan mengarahkan pengguna ke halaman utama.
+        * Membuat routing dengan menggunakan `Navigator.pushReplacement()` dan mengarahkan ke `MyHomePage()`
+        ```
+        ListTile(
+              leading: const Icon(Icons.home_outlined),
+              title: const Text('Halaman Utama'),
+              // Redirection ke MyHomePage
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePage(),
+                  )
+                );
+              },
+            ),
+        ```
+     - Ketika memiih opsi Tambah Item, maka aplikasi akan mengarahkan pengguna ke halaman form tambah item baru
+        * Membuat routing dengan menggunakan `Navigator.push()` dan mengarahkan ke `ShopFormPage()`
+        ```
+        ListTile(
+              leading: const Icon(Icons.add_shopping_cart),
+              title: const Text('Tambah Item'),
+              // Redirection ke ShopFormPage
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShopFormPage(),
+                  )
+                );
+              },
+            ),
+        ```
+
+
+        
 
 # kelontong
 

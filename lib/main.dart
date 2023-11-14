@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kelontong/menu.dart';
+import 'package:kelontong/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
